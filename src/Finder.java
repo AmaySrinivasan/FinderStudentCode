@@ -1,14 +1,12 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Finder
  * A puzzle written by Zach Blick
  * for Adventures in Algorithms
  * At Menlo School in Atherton, CA
- *
+ * <p>
  * Completed by: Amay Srinivasan
  **/
 
@@ -22,15 +20,18 @@ public class Finder {
     private String[] keys = new String[tableSize];
     private String[] values = new String[tableSize];
 
-    public Finder() {}
+    public Finder() {
+    }
+
     // Uses Horner's method to hash, and then the modulos is tableSize, as tableSize changes
     private int hash(String key) {
         long h = 0;
         for (int i = 0; i < key.length(); i++) {
-            h = (h*31+key.charAt(i)) % tableSize;
+            h = (h * 31 + key.charAt(i)) % tableSize;
         }
         return (int) h;
     }
+
     // Doubles the table size, and then re=inserts everything for linear probing
     private void resize() {
         int oldSize = tableSize;
@@ -47,6 +48,7 @@ public class Finder {
             }
         }
     }
+
     // Inserts key-value pairs using linear probing
     private void add(String key, String value) {
         // Makes sure the load factor is less than 0.5 for speed efficiency, otherwise, resize (Double the tableSize)
@@ -69,6 +71,7 @@ public class Finder {
         values[index] = value;
         numPairs++;
     }
+
     // Gets a value using linear probing
     private String get(String key) {
         int index = hash(key);
@@ -81,6 +84,7 @@ public class Finder {
         }
         return INVALID;
     }
+
     // Goes through each value and then pulls out the key-value columns for each row
     // The invalid rows are ignored, and then each pair is inserted into the hashtable
     public void buildTable(BufferedReader br, int keyCol, int valCol) throws IOException {
@@ -94,7 +98,7 @@ public class Finder {
             }
             String key = parts[keyCol];
             // Skips the empty keys
-            if (key == null||key.isEmpty()) {
+            if (key == null || key.isEmpty()) {
                 continue;
             }
             String val = parts[valCol];
@@ -103,8 +107,9 @@ public class Finder {
         }
         br.close();
     }
+
     // Essentially just runs the get function (but this is called in tester)
-    public String query(String key){
+    public String query(String key) {
         return get(key);
     }
 }
